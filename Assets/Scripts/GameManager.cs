@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject ball;
 
+    [SerializeField]
+    private ScoreManager scoreManager;
+
     private bool isGameOver = false;
 
     void Update(){
@@ -24,6 +27,7 @@ public class GameManager : MonoBehaviour
             return;
 
         isGameOver = true;
+        scoreManager.SaveScore();
         Time.timeScale = 0f;
         Debug.Log("Game Over");
         if(gameOverUI != null){
@@ -34,5 +38,10 @@ public class GameManager : MonoBehaviour
     public void Retry(){
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void ToTitle(){
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("TitleScene");
     }
 }

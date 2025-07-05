@@ -28,6 +28,14 @@ public class ScoreManager : MonoBehaviour
         return score;
     }
 
+    public void SaveScore(){
+        int currentHighScore = PlayerPrefs.GetInt("HighScore", 0);
+        if(score > currentHighScore){
+            PlayerPrefs.SetInt("HighScore", score);
+            PlayerPrefs.Save();
+        }
+    }
+    
     private void UpdateUI(){
         if(scoreText != null){
             scoreText.text = "Score: " + score.ToString();
