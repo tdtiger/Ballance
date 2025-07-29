@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class BarController : MonoBehaviour
 {
+    [SerializeField]
     private float rotationSpeed = 100f;
 
     void Update(){
         float input = Input.GetAxis("Horizontal");
-        this.transform.Rotate(0f, 0f, -input * rotationSpeed * Time.deltaTime);
+        this.transform.Rotate(Vector3.forward, -input * rotationSpeed * Time.deltaTime);
     }
 }

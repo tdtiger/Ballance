@@ -8,23 +8,13 @@ public class WallSpawner : MonoBehaviour
     private GameObject blockPrefab;
 
     [SerializeField]
-    private GameObject ball;
-
-    [SerializeField]
-    private GameManager gameManager;
-
-    [SerializeField]
-    private ScoreManager scoreManager;
-
-    [SerializeField]
-    private GameObject fallEffect;
+    private Transform spawnPoint;
 
     private int columns = 6;
 
     private int blockWidth = 2;
 
-    private int spawnY = 5;
-
+    [SerializeField]
     private float spawnInterval = 0.97f;
 
     private float timer = 0f;
@@ -39,44 +29,17 @@ public class WallSpawner : MonoBehaviour
 
     private void SpawnWall(){
         GameObject wallGroup = new GameObject("WallGroup");
-        WallGroup wallScript = wallGroup.AddComponent<WallGroup>();
-        wallScript.SetHoleIndices(GenerateHoleIndices());
-        wallScript.SetBallReference(ball);
-        wallScript.BlockWidth = blockWidth;
-        wallScript.Columns = columns;
-        wallScript.SetGameManager(gameManager);
-        wallScript.SetScoreManager(scoreManager);
-        wallScript.FallEffect = fallEffect;
-        wallScript.GameOverDelay = 0.5f;
+        wallGroup.transform.position = spawnPoint.position;
+        wallGroup.AddComponent<WallGroup>();
 
         int holeIndex = Random.Range(0, columns);
-        
-        List<Rect> holeRects = new List<Rect>();
-        foreach(int i in wallScript.holeIndices){
-            float xCenter = (i - columns / 2f + 0.5f) * blockWidth;
-            Rect holeRect = new Rect(xCenter - blockWidth / 2f, -blockWidth / 2f, blockWidth, blockWidth);
-            holeRects.Add(holeRect);
-        }
 
         for(int i = 0; i < columns; i++){
-            if(wallScript.holeIndices.Contains(i))
+            if(i == holeIndex)
                 continue;
-
-            GameObject block = Instantiate(blockPrefab, wallGroup.transform);
-
-            float x = (i - columns / 2f + 0.5f) * blockWidth;
-            block.transform.localPosition = new Vector3(x, 0f, 0f);
+            
+            Vector3 pos = spawnPoint.position + new Vector3((i - columns / 2f) * blockWidth, 0, 0);
+            GameObject block = Instantiate(blockPrefab, pos, Quaternion.identity, wallGroup.transform);
         }
-
-        wallGroup.transform.position = new Vector3(0f, spawnY, 0f);
-    }
-
-    private List<int> GenerateHoleIndices(){
-        List<int> holeIndices = new List<int>();
-
-        int holeIndex = Random.Range(0, columns);
-        holeIndices.Add(holeIndex);
-
-        return holeIndices;
     }
 }
