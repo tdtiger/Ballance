@@ -10,6 +10,10 @@ public class GameManager : MonoBehaviour
     private GameObject gameOverUI;
 
     private bool isGameOver = false;
+
+    void Start(){
+        gameOverUI.SetActive(false);
+    }
     
     public void GameOver(){
         if(isGameOver)

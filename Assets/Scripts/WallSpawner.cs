@@ -8,6 +8,9 @@ public class WallSpawner : MonoBehaviour
     private GameObject blockPrefab;
 
     [SerializeField]
+    private GameObject holeTrrigerPrefab;
+
+    [SerializeField]
     private Transform spawnPoint;
 
     private int columns = 6;
@@ -35,11 +38,13 @@ public class WallSpawner : MonoBehaviour
         int holeIndex = Random.Range(0, columns);
 
         for(int i = 0; i < columns; i++){
-            if(i == holeIndex)
-                continue;
-            
             Vector3 pos = spawnPoint.position + new Vector3((i - columns / 2f) * blockWidth, 0, 0);
-            GameObject block = Instantiate(blockPrefab, pos, Quaternion.identity, wallGroup.transform);
+            if(i == holeIndex){
+                GameObject hole = Instantiate(holeTrrigerPrefab, pos, Quaternion.identity, wallGroup.transform);
+            }
+            else{          
+                GameObject block = Instantiate(blockPrefab, pos, Quaternion.identity, wallGroup.transform);
+            }
         }
     }
 }
