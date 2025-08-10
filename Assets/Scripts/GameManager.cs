@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject gameOverUI;
 
+    [SerializeField]
+    private ScoreManager scoreManager;
+
     private bool isGameOver = false;
 
     void Start(){
@@ -19,9 +22,10 @@ public class GameManager : MonoBehaviour
         if(isGameOver)
             return;
 
+        scoreManager.SaveScore();
         isGameOver = true;
         Time.timeScale = 0f;
-        Debug.Log("Game Over");
+
         if(gameOverUI != null){
             gameOverUI.SetActive(true);
         }
