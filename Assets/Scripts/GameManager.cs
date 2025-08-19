@@ -12,15 +12,26 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private ScoreManager scoreManager;
 
+    [SerializeField]
+    private Button leftbutton;
+
+    [SerializeField]
+    private Button rightButton;
+
     private bool isGameOver = false;
 
     void Start(){
         gameOverUI.SetActive(false);
+        leftbutton.gameObject.SetActive(true);
+        rightButton.gameObject.SetActive(true);
     }
     
     public void GameOver(){
         if(isGameOver)
             return;
+
+        leftbutton.gameObject.SetActive(false);
+        rightButton.gameObject.SetActive(false);
 
         scoreManager.SaveScore();
         isGameOver = true;
